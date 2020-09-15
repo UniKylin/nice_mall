@@ -29,12 +29,14 @@ class _TabsPageState extends State<TabsPage> {
         ),
         body: this._tabPages[this._currentIndex],
         bottomNavigationBar: BottomNavigationBar(
+          fixedColor: Colors.red,
           onTap: (index) {
             setState(() {
               this._currentIndex = index;
             });
           },
           type: BottomNavigationBarType.fixed,
+          currentIndex: this._currentIndex,
           items: [
             BottomNavigationBarItem(
               title: Text('首页'),
