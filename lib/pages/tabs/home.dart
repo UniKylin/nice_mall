@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../model/FocusModel.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -10,6 +12,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List _focusList;
+
+  @override
+  void initState() {
+    super.initState();
+    this._getCategoryList();
+  }
+
+  _getCategoryList() async {
+    var dio = Dio();
+    Response response = await dio.get('http://127.0.0.1:9000/api/focus');
+    print(response.data);
+    var focusList = FocusModel.fromJson(response.data);
+    print(focusList.result);
+    setState(() {
+      this._focusList = focusList.result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
@@ -28,28 +49,29 @@ class _HomePageState extends State<HomePage> {
 
   // 幻灯片
   Widget _renderSwiper() {
-    List<Map> imgList = [
-      {"url": "https://www.itying.com/images/flutter/slide01.jpg"},
-      {"url": "https://www.itying.com/images/flutter/slide02.jpg"},
-      {"url": "https://www.itying.com/images/flutter/slide03.jpg"},
-    ];
-
-    return Container(
-      child: AspectRatio(
-        aspectRatio: 2/1,
-        child: Swiper(
-          itemBuilder: (BuildContext context, int index) {
-            return new Image.network(
-              imgList[index]['url'],
-              fit: BoxFit.fill,
-            );
-          },
-          autoplay: true,
-          itemCount: imgList.length,
-          pagination: new SwiperPagination(),
-          control: new SwiperControl(),
-        )),
+    if (this._focusList.length > 0) {
+      return Container(
+        child: AspectRatio(
+          aspectRatio: 2/0.8,
+          child: Swiper(
+            itemBuilder: (BuildContext context, int index) {
+              return new Image.network(
+                this._focusList[index].pic,
+                fit: BoxFit.fill,
+              );
+            },
+            autoplay: true,
+            itemCount: this._focusList.length,
+            pagination: new SwiperPagination(),
+            control: new SwiperControl(),
+          ),
+        ),
       );
+    } else {
+      return Center(
+        child: Text('数据加载中...'),
+      );
+    }
   }
 
   // 标题
