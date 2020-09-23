@@ -56,6 +56,21 @@ class _TabsPageState extends State<TabsPage> {
             ),
           ]
         ),
+        // floatingActionButton: Container(
+        //   height: 80,
+        //   width: 80,
+        //   margin: EdgeInsets.all(10),
+        //   padding: EdgeInsets.all(10),
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(40)
+        //   ),
+        //   child: FloatingActionButton(
+        //     child: Icon(Icons.add),
+        //     backgroundColor: Colors.pink,
+        //     mini: true,
+        //   ),
+        // ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
   }
 }
