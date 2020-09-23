@@ -14,14 +14,6 @@ class _CategoryPageState extends State<CategoryPage> {
   void initState() {
     super.initState();
 
-    var mapData = {
-      "name": "James Gosling",
-      "age": 23
-    };
-
-    var strData = '{"name": "James Gosling","age": 23}';
-    print(json.encode(mapData));
-    print(json.decode(strData)['name']);
   }
 
   @override
