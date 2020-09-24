@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   _getCategoryList() async {
     var dio = Dio();
-    Response response = await dio.get(UrlConfig.FOCUS_URL);
+    Response response = await dio.get(Config.FOCUS_URL);
     print(response.data);
     var focusList = FocusModel.fromJson(response.data);
     print(focusList.result);

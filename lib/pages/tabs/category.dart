@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nicemart/config/Config.dart';
+import 'package:nicemart/model/CategoryModel.dart';
 
 class CategoryPage extends StatefulWidget {
   CategoryPage({Key key}) : super(key: key);
@@ -12,10 +15,21 @@ class _CategoryPageState extends State<CategoryPage> {
 
   // selected menu
   var _selectedIndex = 0;
+  List _categoryList = [];
 
   @override
   void initState() {
     super.initState();
+    this._fetchCategoryList();
+  }
+
+  _fetchCategoryList() async {
+    Response response = await Dio().get(Config.CATEGORY_URL);
+    var categoryList = CategoryModel.fromJson(response.data);
+    print(categoryList);
+    setState(() {
+      this._categoryList = categoryList.result;
+    });
   }
 
   @override
@@ -33,7 +47,7 @@ class _CategoryPageState extends State<CategoryPage> {
           width: leftMenuWidth,
           height: double.infinity,
           child: ListView.builder(
-            itemCount: 38,
+            itemCount: this._categoryList.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -44,10 +58,11 @@ class _CategoryPageState extends State<CategoryPage> {
                       });
                     },
                     child: Container(
-                      height: ScreenUtil().setHeight(56),
                       width: double.infinity,
+                      height: ScreenUtil().setHeight(56),
+                      padding: EdgeInsets.only(top: ScreenUtil().setHeight(24)),
                       color: this._selectedIndex == index ? Colors.red : Colors.white,
-                      child: Text('第${index + 1}个', textAlign: TextAlign.center,),
+                      child: Text('${this._categoryList[index].title}', textAlign: TextAlign.center,),
                     ),
                   ),
                   Divider(),
