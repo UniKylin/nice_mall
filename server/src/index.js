@@ -40,6 +40,86 @@ router.get('/api/focus', (ctx, next) => {
   }
 });
 
+
+router.get('/api/category', (ctx, next) => {
+  ctx.body = {
+    result: [
+      {
+        _id: "59f1e1ada1da8b15d42234e9",
+        title: "电脑办公",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "59f1e1e880e7ed050cec999d",
+        title: "女装内衣",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "59f1e4659bfd8f3bd030eed3",
+        title: "运动户外",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "59f1e46e9bfd8f3bd030eed4",
+        title: "手机数码",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "59f1e47e9bfd8f3bd030eed5",
+        title: "化妆品",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "5a04251e010e711234661438",
+        title: "箱包",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "5a04261e010e71123466143a",
+        title: "女鞋",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "5a042e29010e711234661443",
+        title: "汽车用品",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      },
+      {
+        _id: "5a042f27010e711234661446",
+        title: "酒水饮料",
+        status: 1,
+        pic: "",
+        pid: "0",
+        sort: "100"
+      }
+    ]
+  }
+})
+
 app
   .use(router.routes())
   .use(router.allowedMethods());
