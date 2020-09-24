@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/FocusModel.dart';
+import '../../config/Config.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   _getCategoryList() async {
     var dio = Dio();
-    Response response = await dio.get('http://127.0.0.1:9000/api/focus');
+    Response response = await dio.get(UrlConfig.FOCUS_URL);
     print(response.data);
     var focusList = FocusModel.fromJson(response.data);
     print(focusList.result);
