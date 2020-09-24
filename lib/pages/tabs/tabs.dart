@@ -26,6 +26,7 @@ class _TabsPageState extends State<TabsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('麒麟商场'),
+          backgroundColor: Colors.red,
         ),
         body: this._tabPages[this._currentIndex],
         bottomNavigationBar: BottomNavigationBar(
