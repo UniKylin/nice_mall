@@ -12,21 +12,25 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   List _focusList;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
+    print('>>>>>>>>>>>>>>>>>>> home page init');
     this._getCategoryList();
   }
 
   _getCategoryList() async {
     var dio = Dio();
     Response response = await dio.get(Config.FOCUS_URL);
-    print(response.data);
+    // print(response.data);
     var focusList = FocusModel.fromJson(response.data);
-    print(focusList.result);
+    // print(focusList.result);
     setState(() {
       this._focusList = focusList.result;
     });
@@ -50,29 +54,29 @@ class _HomePageState extends State<HomePage> {
 
   // 幻灯片
   Widget _renderSwiper() {
-    if (this._focusList.length > 0) {
-      return Container(
-        child: AspectRatio(
-          aspectRatio: 2/0.8,
-          child: Swiper(
-            itemBuilder: (BuildContext context, int index) {
-              return new Image.network(
-                this._focusList[index].pic,
-                fit: BoxFit.fill,
-              );
-            },
-            autoplay: true,
-            itemCount: this._focusList.length,
-            pagination: new SwiperPagination(),
-            control: new SwiperControl(),
-          ),
-        ),
-      );
-    } else {
+    if (_focusList == null) {
       return Center(
         child: Text('数据加载中...'),
       );
     }
+
+    return Container(
+      child: AspectRatio(
+        aspectRatio: 2/0.8,
+        child: Swiper(
+          itemBuilder: (BuildContext context, int index) {
+            return new Image.network(
+              this._focusList[index].pic,
+              fit: BoxFit.fill,
+            );
+          },
+          autoplay: true,
+          itemCount: this._focusList.length,
+          pagination: new SwiperPagination(),
+          control: new SwiperControl(),
+        ),
+      ),
+    );
   }
 
   // 标题

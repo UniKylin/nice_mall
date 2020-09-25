@@ -12,14 +12,27 @@ class TabsPage extends StatefulWidget {
 }
 
 class _TabsPageState extends State<TabsPage> {
+  // 当前页面索引
   int _currentIndex = 0;
 
-  List _tabPages = [
-    HomePage(),
-    CategoryPage(),
-    CartPage(),
-    MinePage(),
-  ];
+  // 页面控制器
+  PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    print('>>>>>>>>>>>>>>>>>>> tab page init');
+    _pageController = new PageController(
+      keepPage: true,
+      initialPage: this._currentIndex,
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +41,28 @@ class _TabsPageState extends State<TabsPage> {
           title: Text('麒麟商场'),
           backgroundColor: Colors.red,
         ),
-        body: this._tabPages[this._currentIndex],
+        body: PageView(
+          controller: _pageController,
+          children: <Widget>[
+            HomePage(),
+            CategoryPage(),
+            CartPage(),
+            MinePage(),
+          ],
+          // onPageChanged: (index) {
+          //   this._currentIndex = index;
+          // },
+        ),
         bottomNavigationBar: BottomNavigationBar(
-          fixedColor: Colors.red,
+          currentIndex: this._currentIndex,
           onTap: (index) {
             setState(() {
               this._currentIndex = index;
+              _pageController.jumpToPage(this._currentIndex);
             });
           },
+          fixedColor: Colors.red,
           type: BottomNavigationBarType.fixed,
-          currentIndex: this._currentIndex,
           items: [
             BottomNavigationBarItem(
               title: Text('首页'),

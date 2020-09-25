@@ -12,7 +12,10 @@ class CategoryPage extends StatefulWidget {
   _CategoryPageState createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   // selected menu
   var _selectedIndex = 0;
@@ -22,6 +25,7 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   void initState() {
     super.initState();
+    print('>>>>>>>>>>>>>>>>>>> category page init');
     this._fetchCategoryList();
   }
 
@@ -29,9 +33,9 @@ class _CategoryPageState extends State<CategoryPage> {
     Response response = await Dio().get(Config.CATEGORY_URL);
     var categoryList = CategoryModel.fromJson(response.data);
 
-    categoryList.result.forEach((element) {
-      print(element.sId);
-    });
+    // categoryList.result.forEach((element) {
+    //   print(element.sId);
+    // });
 
     setState(() {
       this._categoryList = categoryList.result;
@@ -42,7 +46,7 @@ class _CategoryPageState extends State<CategoryPage> {
   _fetchProductById(categoryId) async {
     Response response = await Dio().get('http://jd.itying.com/api/pcate?pid=${categoryId}');
     var productList = ProductModel.fromJson(response.data);
-    print(productList.result);
+    // print(productList.result);
     setState(() {
       this._productList = productList.result;
     });
@@ -72,7 +76,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       setState(() {
                         this._selectedIndex = index;
                         this._fetchProductById(this._categoryList[index].sId);
-                        print('>>>>>>>>>>>>${this._categoryList[index].sId}');
+                        // print('>>>>>>>>>>>>${this._categoryList[index].sId}');
                       });
                     },
                     child: Container(
