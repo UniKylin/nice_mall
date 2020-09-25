@@ -49,16 +49,28 @@ class _TabsPageState extends State<TabsPage> {
             CartPage(),
             MinePage(),
           ],
-          // onPageChanged: (index) {
-          //   this._currentIndex = index;
-          // },
+          onPageChanged: (index) {
+            print('>>>>>>>>>>> page changed...${index}');
+            setState(() {
+              this._currentIndex = index;
+            });
+          },
+
+          // 禁止左右滑动，体验下降
+          // physics: NeverScrollableScrollPhysics(),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: this._currentIndex,
           onTap: (index) {
+            print('>>>>>>>>>>> bottom changed...${index}');
             setState(() {
               this._currentIndex = index;
-              _pageController.jumpToPage(this._currentIndex);
+              // _pageController.jumpToPage(this._currentIndex);
+              _pageController.animateToPage(
+                this._currentIndex,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.ease,
+              );
             });
           },
           fixedColor: Colors.red,
