@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nicemart/pages/product.dart';
 import '../pages/search.dart';
 import '../pages/tabs/tabs.dart';
 
@@ -6,6 +7,7 @@ import '../pages/tabs/tabs.dart';
 final routes = {
   '/': (context) => TabsPage(),
   '/search': (context) => SearchPage(),
+  '/products': (context, { arguments }) => ProductPage(arguments: arguments),
 };
 
 //固定写法

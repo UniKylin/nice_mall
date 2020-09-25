@@ -111,22 +111,30 @@ class _CategoryPageState extends State<CategoryPage> {
               itemBuilder: (context, index) {
                 String pic=this._productList[index].pic;
                 pic = 'http://jd.itying.com/' + pic.replaceAll('\\', '/');
-                return Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Image.network(
-                          '${pic}',
-                          fit: BoxFit.cover,
+
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/products', arguments: {
+                      'categoryId': this._productList[index].sId,
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: Image.network(
+                            '${pic}',
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 18,
-                        child: Text('${this._productList[index].title}'),
-                      )
-                    ],
+                        Container(
+                          height: 18,
+                          child: Text('${this._productList[index].title}'),
+                        )
+                      ],
+                    ),
                   ),
                 );
               }
