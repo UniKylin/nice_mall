@@ -18,91 +18,196 @@ class _ProductPageState extends State<ProductPage> {
         title: Text('商品列表'),
         backgroundColor: Colors.red,
       ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(20),
-            ScreenUtil().setHeight(15),
-            ScreenUtil().setWidth(20),
-            ScreenUtil().setHeight(15)),
-        child: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: ScreenUtil().setWidth(180),
-                        height: ScreenUtil().setHeight(180),
-                        child: Image.network(
-                          'https://www.itying.com/images/flutter/list2.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: ScreenUtil().setHeight(180),
-                          margin:
-                              EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '戴尔(DELL)灵越3670 英特尔酷睿i5 高性能 台式电脑整机(九代i5-9400 8G 256G)',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(28),
-                                ),
-                              ),
-                              Text(
-                                '￥880',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: ScreenUtil().setSp(26),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        right: ScreenUtil().setWidth(20)),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(20),
-                                      vertical: ScreenUtil().setHeight(5),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Colors.red,
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                          ScreenUtil().setWidth(20)),
-                                    ),
-                                    child: Text(
-                                      '官方自营',
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(20),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    height: 20,
-                  )
-                ],
-              );
-            }),
+      body: Stack(
+        children: [
+          _renderProductList(),
+          _renderTopHeader(),
+        ],
       ),
+    );
+  }
+
+  Widget _renderTopHeader() {
+    return Positioned(
+      top: 0,
+      width: ScreenUtil().setWidth(750),
+      height: ScreenUtil().setHeight(80),
+      child: Container(
+        // color: Colors.pink,
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+          width: 1,
+          color: Color.fromRGBO(233, 233, 233, 0.9),
+        ))),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                  onTap: () {
+                    // TODO:
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(20)),
+                    child: Text(
+                      '综合',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(28),
+                      ),
+                    ),
+                  )),
+            ),
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                onTap: () {
+                  // TODO:
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: ScreenUtil().setHeight(20)),
+                  child: Text(
+                    '销量',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(28),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                onTap: () {
+                  // TODO:
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: ScreenUtil().setHeight(20)),
+                  child: Text(
+                    '价格',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(28),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                  onTap: () {
+                    // TODO:
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(20)),
+                    child: Text(
+                      '筛选',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(28),
+                      ),
+                    ),
+                  )),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _renderProductList() {
+    return Container(
+      margin: EdgeInsets.only(top: ScreenUtil().setHeight(80)),
+      padding: EdgeInsets.fromLTRB(
+          ScreenUtil().setWidth(20),
+          ScreenUtil().setHeight(15),
+          ScreenUtil().setWidth(20),
+          ScreenUtil().setHeight(15)),
+      child: ListView.builder(
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: ScreenUtil().setWidth(180),
+                      height: ScreenUtil().setHeight(180),
+                      child: Image.network(
+                        'https://www.itying.com/images/flutter/list2.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: ScreenUtil().setHeight(180),
+                        margin:
+                            EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '戴尔(DELL)灵越3670 英特尔酷睿i5 高性能 台式电脑整机(九代i5-9400 8G 256G)',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(28),
+                              ),
+                            ),
+                            Text(
+                              '￥880',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: ScreenUtil().setSp(26),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: ScreenUtil().setWidth(20)),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: ScreenUtil().setWidth(20),
+                                    vertical: ScreenUtil().setHeight(5),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.red,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                        ScreenUtil().setWidth(20)),
+                                  ),
+                                  child: Text(
+                                    '官方自营',
+                                    style: TextStyle(
+                                      fontSize: ScreenUtil().setSp(20),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(
+                  height: 20,
+                )
+              ],
+            );
+          }),
     );
   }
 }
