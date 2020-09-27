@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:nicemart/common/loading_widget.dart';
+import 'package:nicemart/model/ProductModel.dart';
 
 class ProductPage extends StatefulWidget {
   Map arguments;
@@ -10,13 +13,91 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  //Scaffold key
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // 当前页
+  int _currentPage = 1;
+
+  // 每页显示多少条
+  int _pageSize = 8;
+
+  // 是否加锁
+  bool lock = true;
+
+  // 是否还有数据
+  bool _hasMore = true;
+
+  List _productList = [];
+
+  // 上拉分页加载数据控制器
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    this._fetchProducts();
+
+    _scrollController.addListener(() {
+      // print(_scrollController.position.pixels);
+      // print(_scrollController.position.maxScrollExtent);
+
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 20) {
+        if (this.lock && this._hasMore) {
+          this._fetchProducts();
+        }
+      }
+
+    });
+  }
+
+  _fetchProducts() async {
+    setState(() {
+      this.lock = false;
+    });
+
+    String categoryId = widget.arguments['categoryId'];
+    String url = 'http://jd.itying.com/api/plist?cid=${categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
+    Response result = await Dio().get(url);
+    var productList = ProductModel.fromJson(result.data);
+    print('>>>>>>>>>>>');
+    print(url);
+    print(categoryId);
+    print(productList.result.length);
+
+    if (productList.result.length < this._pageSize) {
+      setState(() {
+        this._productList.addAll(productList.result);
+        this._hasMore = false;
+        this.lock = true;
+      });
+    } else {
+      setState(() {
+        this._productList.addAll(productList.result);
+        this._currentPage++;
+        this.lock = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('商品列表'),
         backgroundColor: Colors.red,
+        actions: [
+          Text(''),
+        ],
+      ),
+      endDrawer: Drawer(
+        child: Container(
+          padding: EdgeInsets.only(top: 50),
+          color: Colors.blueAccent,
+          child: Text('右侧抽屉...'),
+        ),
       ),
       body: Stack(
         children: [
@@ -101,20 +182,21 @@ class _ProductPageState extends State<ProductPage> {
             Expanded(
               flex: 1,
               child: InkWell(
-                  onTap: () {
-                    // TODO:
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(20)),
-                    child: Text(
-                      '筛选',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(28),
-                      ),
+                onTap: () {
+                  _scaffoldKey.currentState.openEndDrawer();
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: ScreenUtil().setHeight(20)),
+                  child: Text(
+                    '筛选',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(28),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -122,92 +204,130 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
+  Widget _showLoadingMore(index) {
+    if (this._hasMore) {
+      return (index == this._productList.length - 1) ? (
+        CircularProgressIndicator(
+          strokeWidth: 1.0,
+        )
+      ) : Text('');
+    } else {
+      return (index == this._productList.length - 1) ? (
+        Text('--- 我是有底线的 ---')
+      ) : Text('');
+    }
+  }
+
   Widget _renderProductList() {
+    if (this._productList == null) {
+      return LoadingWidget();
+    }
+
     return Container(
       margin: EdgeInsets.only(top: ScreenUtil().setHeight(80)),
       padding: EdgeInsets.fromLTRB(
-          ScreenUtil().setWidth(20),
-          ScreenUtil().setHeight(15),
-          ScreenUtil().setWidth(20),
-          ScreenUtil().setHeight(15)),
+        ScreenUtil().setWidth(20),
+        ScreenUtil().setHeight(15),
+        ScreenUtil().setWidth(20),
+        ScreenUtil().setHeight(15),
+      ),
       child: ListView.builder(
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: ScreenUtil().setWidth(180),
+        controller: _scrollController,
+        itemCount: this._productList.length,
+        itemBuilder: (context, index) {
+          String pic = this._productList[index].pic;
+          pic = 'http://jd.itying.com/' + pic.replaceAll('\\', '/');
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: ScreenUtil().setWidth(180),
+                    height: ScreenUtil().setHeight(180),
+                    child: Image.network(
+                      '${pic}',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
                       height: ScreenUtil().setHeight(180),
-                      child: Image.network(
-                        'https://www.itying.com/images/flutter/list2.jpg',
-                        fit: BoxFit.cover,
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${this._productList[index].title}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(28),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '￥${this._productList[index].price}',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: ScreenUtil().setSp(32),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                                child: Text(
+                                '￥${this._productList[index].oldPrice}',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: ScreenUtil().setSp(26),
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    right: ScreenUtil().setWidth(20)),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(20),
+                                  vertical: ScreenUtil().setHeight(5),
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.red,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                      ScreenUtil().setWidth(20)),
+                                ),
+                                child: Text(
+                                  '官方自营',
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(20),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: ScreenUtil().setHeight(180),
-                        margin:
-                            EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '戴尔(DELL)灵越3670 英特尔酷睿i5 高性能 台式电脑整机(九代i5-9400 8G 256G)',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(28),
-                              ),
-                            ),
-                            Text(
-                              '￥880',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: ScreenUtil().setSp(26),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: ScreenUtil().setWidth(20)),
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: ScreenUtil().setWidth(20),
-                                    vertical: ScreenUtil().setHeight(5),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Colors.red,
-                                    ),
-                                    borderRadius: BorderRadius.circular(
-                                        ScreenUtil().setWidth(20)),
-                                  ),
-                                  child: Text(
-                                    '官方自营',
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(20),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(
-                  height: 20,
-                )
-              ],
-            );
-          }),
+                  ),
+                ],
+              ),
+              Divider(
+                height: 20,
+              ),
+              _showLoadingMore(index),
+            ],
+          );
+        },
+      ),
     );
   }
 }

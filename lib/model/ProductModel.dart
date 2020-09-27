@@ -24,30 +24,40 @@ class ProductModel {
 class ProductItemModel {
   String sId;
   String title;
-  String status;
+  String cid;
+  Object price;   //所有的类型都继承 Object
+  String oldPrice;
   String pic;
-  String pid;
-  String sort;
+  String sPic;
 
-  ProductItemModel({this.sId, this.title, this.status, this.pic, this.pid, this.sort});
+  ProductItemModel(
+      {this.sId,
+      this.title,
+      this.cid,
+      this.price,
+      this.oldPrice,
+      this.pic,
+      this.sPic});
 
   ProductItemModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     title = json['title'];
-    status = json['status'];
+    cid = json['cid'];
+    price = json['price'];
+    oldPrice = json['old_price'];
     pic = json['pic'];
-    pid = json['pid'];
-    sort = json['sort'];
+    sPic = json['s_pic'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['title'] = this.title;
-    data['status'] = this.status;
+    data['cid'] = this.cid;
+    data['price'] = this.price;
+    data['old_price'] = this.oldPrice;
     data['pic'] = this.pic;
-    data['pid'] = this.pid;
-    data['sort'] = this.sort;
+    data['s_pic'] = this.sPic;
     return data;
   }
 }
