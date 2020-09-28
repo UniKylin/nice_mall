@@ -33,6 +33,22 @@ class _ProductPageState extends State<ProductPage> {
   // 上拉分页加载数据控制器
   ScrollController _scrollController = ScrollController();
 
+  /*二级导航数据*/
+  List _subHeaderList = [
+    {
+      "id": 1,
+      "title": "综合",
+      "fileds": "all",
+      "sort":
+          -1, //排序     升序：price_1     {price:1}        降序：price_-1   {price:-1}
+    },
+    {"id": 2, "title": "销量", "fileds": 'salecount', "sort": -1},
+    {"id": 3, "title": "价格", "fileds": 'price', "sort": -1},
+    {"id": 4, "title": "筛选"}
+  ];
+
+  int _selectedHeaderId = 1;
+
   @override
   void initState() {
     super.initState();
@@ -42,12 +58,12 @@ class _ProductPageState extends State<ProductPage> {
       // print(_scrollController.position.pixels);
       // print(_scrollController.position.maxScrollExtent);
 
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 20) {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 20) {
         if (this.lock && this._hasMore) {
           this._fetchProducts();
         }
       }
-
     });
   }
 
@@ -57,7 +73,8 @@ class _ProductPageState extends State<ProductPage> {
     });
 
     String categoryId = widget.arguments['categoryId'];
-    String url = 'http://jd.itying.com/api/plist?cid=${categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
+    String url =
+        'http://jd.itying.com/api/plist?cid=${categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
     Response result = await Dio().get(url);
     var productList = ProductModel.fromJson(result.data);
     print('>>>>>>>>>>>');
@@ -122,36 +139,18 @@ class _ProductPageState extends State<ProductPage> {
           color: Color.fromRGBO(233, 233, 233, 0.9),
         ))),
         child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                  onTap: () {
-                    // TODO:
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(20)),
-                    child: Text(
-                      '综合',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(28),
-                      ),
-                    ),
-                  )),
-            ),
+          children: this._subHeaderList.map((e) => (
             Expanded(
               flex: 1,
               child: InkWell(
                 onTap: () {
-                  // TODO:
+                  _handleHeaderTabsChange(e['id']);
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: ScreenUtil().setHeight(20)),
                   child: Text(
-                    '销量',
+                    '${e['title']}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(28),
@@ -159,62 +158,42 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                onTap: () {
-                  // TODO:
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: ScreenUtil().setHeight(20)),
-                  child: Text(
-                    '价格',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(28),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                onTap: () {
-                  _scaffoldKey.currentState.openEndDrawer();
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: ScreenUtil().setHeight(20)),
-                  child: Text(
-                    '筛选',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(28),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+            )
+          )).toList()
         ),
       ),
     );
   }
 
+  _handleHeaderTabsChange(id) {
+    if (id == 4) {
+      _scaffoldKey.currentState.openEndDrawer();
+      setState(() {
+        this._selectedHeaderId = id;
+      });
+    } else {
+      setState(() {
+        this._selectedHeaderId = id;
+        this._currentPage = 1;
+        this._hasMore = true;
+        this._productList = [];
+        _scrollController.jumpTo(0);
+        this._fetchProducts();
+      });
+    }
+  }
+
   Widget _showLoadingMore(index) {
     if (this._hasMore) {
-      return (index == this._productList.length - 1) ? (
-        CircularProgressIndicator(
-          strokeWidth: 1.0,
-        )
-      ) : Text('');
+      return (index == this._productList.length - 1)
+          ? (CircularProgressIndicator(
+              strokeWidth: 1.0,
+            ))
+          : Text('');
     } else {
-      return (index == this._productList.length - 1) ? (
-        Text('--- 我是有底线的 ---')
-      ) : Text('');
+      return (index == this._productList.length - 1)
+          ? (Text('--- 我是有底线的 ---'))
+          : Text('');
     }
   }
 
@@ -276,9 +255,10 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+                                margin: EdgeInsets.only(
+                                    left: ScreenUtil().setWidth(20)),
                                 child: Text(
-                                '￥${this._productList[index].oldPrice}',
+                                  '￥${this._productList[index].oldPrice}',
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: ScreenUtil().setSp(26),
