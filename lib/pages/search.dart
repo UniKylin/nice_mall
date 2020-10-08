@@ -84,8 +84,297 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      body: Center(
-        child: Text('开始搜索...'),
+      body: Container(
+        child: ListView(
+          children: [
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '搜索历史',
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(30),
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // todo
+                      print('>>>>>>>>>>> search page: delete action...');
+                    },
+                    child: Icon(
+                      Icons.delete,
+                      size: 24,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
+              child: Wrap(
+                children: [
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: (){
+                      print('>>>> search page: label click aciton...');
+                    },
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                        ScreenUtil().setWidth(15),
+                        ScreenUtil().setHeight(5),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: Text(
+                          '小米笔记本',
+                          style: TextStyle(
+                              color: Colors.black87, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
