@@ -89,14 +89,19 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             Container(
               color: Colors.white,
-              padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
+              padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(15),
+                ScreenUtil().setHeight(20),
+                ScreenUtil().setWidth(15),
+                ScreenUtil().setHeight(5),
+              ),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       '搜索历史',
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(30),
+                        fontSize: ScreenUtil().setSp(26),
                         color: Colors.black54,
                       ),
                     ),
@@ -107,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
                       print('>>>>>>>>>>> search page: delete action...');
                     },
                     child: Icon(
-                      Icons.delete,
+                      Icons.delete_outline,
                       size: 24,
                       color: Colors.grey.shade600,
                     ),
@@ -117,7 +122,12 @@ class _SearchPageState extends State<SearchPage> {
             ),
             Container(
               color: Colors.white,
-              padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
+              padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(15),
+                ScreenUtil().setHeight(5),
+                ScreenUtil().setWidth(15),
+                ScreenUtil().setHeight(25),
+              ),
               child: Wrap(
                 children: [
                   InkWell(
@@ -163,7 +173,7 @@ class _SearchPageState extends State<SearchPage> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         child: Text(
-                          '小米笔记本',
+                          'iPhone 11 pro max',
                           style: TextStyle(
                               color: Colors.black87, fontSize: 12),
                         ),
@@ -213,7 +223,7 @@ class _SearchPageState extends State<SearchPage> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         child: Text(
-                          '小米笔记本',
+                          '手环',
                           style: TextStyle(
                               color: Colors.black87, fontSize: 12),
                         ),
