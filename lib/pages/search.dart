@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -10,9 +11,78 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
     return Scaffold(
       appBar: AppBar(
-        title: Text('搜索页'),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: ScreenUtil().setWidth(500),
+              height: ScreenUtil().setHeight(50),
+              padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color.fromRGBO(233, 233, 233, .9),
+              ),
+              child: TextField(
+                autofocus: true,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: ScreenUtil().setHeight(10),
+                    ),
+                    child: Icon(
+                      Icons.search,
+                      size: 24,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      print('>>>>> search page: begin search');
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: ScreenUtil().setHeight(15),
+                      ),
+                      child: Icon(
+                        Icons.camera_alt,
+                        size: 24,
+                        color: Colors.black38,
+                      ),
+                    ),
+                  ),
+                  hintText: '小米游戏笔记本',
+                  hintStyle: TextStyle(
+                    color: Colors.black38,
+                  ),
+                  contentPadding: EdgeInsets.all(10),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onTap: () {
+                  // todo
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                left: ScreenUtil().setWidth(20),
+              ),
+              child: Text(
+                '搜索',
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: ScreenUtil().setSp(32),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
       body: Center(
         child: Text('开始搜索...'),

@@ -37,6 +37,7 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
+
     return Scaffold(
       appBar: (
         (this._currentIndex == 0 || this._currentIndex == 1) ? (
@@ -86,11 +87,7 @@ class _TabsPageState extends State<TabsPage> {
             backgroundColor: Colors.red,
             actions: [],
           )
-        ) : (
-          AppBar(
-            title: Text('这就是一个表头啊'),
-          )
-        )
+        ) : null
       ),
       body: PageView(
         controller: _pageController,
