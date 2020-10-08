@@ -9,6 +9,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  // 搜索关键字
+  String _keywords;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
@@ -67,20 +70,31 @@ class _SearchPageState extends State<SearchPage> {
                 onTap: () {
                   // todo
                 },
+                onChanged: (value) {
+                  this._keywords = value;
+                  print('>>>>>>>>> search page: input text field value: ${value}');
+                },
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                left: ScreenUtil().setWidth(20),
-              ),
-              child: Text(
-                '搜索',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: ScreenUtil().setSp(32),
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/products', arguments: {
+                  'keywords': this._keywords,
+                });
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(20),
+                ),
+                child: Text(
+                  '搜索',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: ScreenUtil().setSp(32),
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

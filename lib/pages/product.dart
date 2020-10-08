@@ -54,6 +54,8 @@ class _ProductPageState extends State<ProductPage> {
     super.initState();
     this._fetchProducts();
 
+    print('>>>>>>>>> search keyword: ${widget.arguments['keywords']}');
+
     _scrollController.addListener(() {
       // print(_scrollController.position.pixels);
       // print(_scrollController.position.maxScrollExtent);
@@ -73,8 +75,14 @@ class _ProductPageState extends State<ProductPage> {
     });
 
     String categoryId = widget.arguments['categoryId'];
-    String url =
-        'http://jd.itying.com/api/plist?cid=${categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
+
+    String url = '';
+    String keywords = widget.arguments['keywords'];
+    if (keywords == null) {
+      url = 'http://jd.itying.com/api/plist?cid=${categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
+    } else {
+      url = 'http://jd.itying.com/api/plist?search=${keywords}&page=${this._currentPage}&pageSize=${this._pageSize}';
+    }
     Response result = await Dio().get(url);
     var productList = ProductModel.fromJson(result.data);
     print('>>>>>>>>>>>');

@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: TabsPage()
-      initialRoute: '/search',
+      initialRoute: '/',
       onGenerateRoute: onGenerateRoute,
       theme: ThemeData(
         primaryColor: Colors.white,
