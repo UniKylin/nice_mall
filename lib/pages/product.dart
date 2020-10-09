@@ -58,6 +58,9 @@ class _ProductPageState extends State<ProductPage> {
   // 初始化搜索框的值
   var _initKeywordsController = TextEditingController();
 
+  // 分类
+  var _sort;
+
   @override
   void initState() {
     super.initState();
@@ -93,9 +96,9 @@ class _ProductPageState extends State<ProductPage> {
 
     String url = '';
     if (this._keywords == null) {
-      url = 'http://jd.itying.com/api/plist?cid=${this._categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
+      url = 'http://jd.itying.com/api/plist?cid=${this._categoryId}&page=${this._currentPage}&sort=${this._sort}&pageSize=${this._pageSize}';
     } else {
-      url = 'http://jd.itying.com/api/plist?search=${this._keywords}&page=${this._currentPage}&pageSize=${this._pageSize}';
+      url = 'http://jd.itying.com/api/plist?search=${this._keywords}&page=${this._currentPage}sort=${this._sort}&pageSize=${this._pageSize}';
     }
 
     Response result = await Dio().get(url);
@@ -249,6 +252,7 @@ class _ProductPageState extends State<ProductPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(28),
+                      color: (this._selectedHeaderId == e['id'] ? Colors.red : Colors.black54),
                     ),
                   ),
                 ),
@@ -269,6 +273,11 @@ class _ProductPageState extends State<ProductPage> {
     } else {
       setState(() {
         this._selectedHeaderId = id;
+        this._sort ='${this._subHeaderList[id - 1]["fileds"]}_${this._subHeaderList[id - 1]["sort"]}';
+
+        //改变sort排序
+        this._subHeaderList[id - 1]['sort'] = this._subHeaderList[id - 1]['sort'] * -1;
+
         this._currentPage = 1;
         this._hasMore = true;
         this._productList = [];
