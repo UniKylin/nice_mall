@@ -49,9 +49,24 @@ class _ProductPageState extends State<ProductPage> {
 
   int _selectedHeaderId = 1;
 
+  // 分类id
+  var _categoryId;
+
+  // 搜索关键字
+  var _keywords;
+
+  // 初始化搜索框的值
+  var _initKeywordsController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+
+    // 初始化参数
+    this._categoryId = widget.arguments['categoryId'];
+    this._keywords = widget.arguments['keywords'];
+    this._initKeywordsController.text = this._keywords == null ? '' : this._keywords;
+
     this._fetchProducts();
 
     print('>>>>>>>>> search keyword: ${widget.arguments['keywords']}');
@@ -77,12 +92,12 @@ class _ProductPageState extends State<ProductPage> {
     String categoryId = widget.arguments['categoryId'];
 
     String url = '';
-    String keywords = widget.arguments['keywords'];
-    if (keywords == null) {
-      url = 'http://jd.itying.com/api/plist?cid=${categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
+    if (this._keywords == null) {
+      url = 'http://jd.itying.com/api/plist?cid=${this._categoryId}&page=${this._currentPage}&pageSize=${this._pageSize}';
     } else {
-      url = 'http://jd.itying.com/api/plist?search=${keywords}&page=${this._currentPage}&pageSize=${this._pageSize}';
+      url = 'http://jd.itying.com/api/plist?search=${this._keywords}&page=${this._currentPage}&pageSize=${this._pageSize}';
     }
+
     Response result = await Dio().get(url);
     var productList = ProductModel.fromJson(result.data);
     print('>>>>>>>>>>>');
@@ -111,19 +126,91 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('商品列表'),
-        backgroundColor: Colors.red,
-        actions: [
-          Text(''),
-        ],
-      ),
-      endDrawer: Drawer(
-        child: Container(
-          padding: EdgeInsets.only(top: 50),
-          color: Colors.blueAccent,
-          child: Text('右侧抽屉...'),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: ScreenUtil().setWidth(500),
+              height: ScreenUtil().setHeight(50),
+              padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color.fromRGBO(233, 233, 233, .9),
+              ),
+              child: TextField(
+                autofocus: true,
+                maxLines: 1,
+                controller: this._initKeywordsController,
+                decoration: InputDecoration(
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: ScreenUtil().setHeight(10),
+                    ),
+                    child: Icon(
+                      Icons.search,
+                      size: 24,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      print('>>>>> search page: begin search');
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: ScreenUtil().setHeight(15),
+                      ),
+                      child: Icon(
+                        Icons.camera_alt,
+                        size: 24,
+                        color: Colors.black38,
+                      ),
+                    ),
+                  ),
+                  hintText: '小米游戏笔记本',
+                  hintStyle: TextStyle(
+                    color: Colors.black38,
+                  ),
+                  contentPadding: EdgeInsets.all(10),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    this._keywords = value;
+                  });
+                },
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                this._fetchProducts();
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(20),
+                ),
+                child: Text(
+                  '搜索',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: ScreenUtil().setSp(32),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+      // endDrawer: Drawer(
+      //   child: Container(
+      //     padding: EdgeInsets.only(top: 50),
+      //     color: Colors.blueAccent,
+      //     child: Text('右侧抽屉...'),
+      //   ),
+      // ),
       body: Stack(
         children: [
           _renderProductList(),
